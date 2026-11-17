@@ -1,9 +1,12 @@
 name: deploy site
 
+# Rebuilds the recall list from cpsc.gov every morning, so the site picks up
+# new recalls without anyone touching it.
 on:
   push:
     branches: [main]
-    paths: ["web/**", ".github/workflows/pages.yml"]
+  schedule:
+    - cron: "17 11 * * *"
   workflow_dispatch:
 
 permissions:
@@ -18,19 +21,23 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: web
     steps:
       - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - name: fetch recalls
+        run: uv run python -m recalls.build --since 2016
+      - name: build the index
+        run: uv run python -m recalls.export
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: web/package-lock.json
-      - run: npm ci
-      - run: npm test
-      - run: npm run build
+      - working-directory: web
+        run: |
+          npm ci
+          npm test
+          npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist

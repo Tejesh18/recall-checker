@@ -2,6 +2,9 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-data/
 node_modules/
 dist/
+data/*
+!data/word_df.json
+!data/asins.json
+web/public/index.json

@@ -4,7 +4,8 @@ import { Matcher, accessoryWords, modelTokens, stem, type Index } from "./matche
 import { readOrders } from "./orders";
 import parity from "./__fixtures__/parity.json";
 
-const index: Index = JSON.parse(readFileSync(new URL("../../public/index.json", import.meta.url), "utf8"));
+// a frozen copy: the live index changes every day, the expected answers don't
+const index: Index = JSON.parse(readFileSync(new URL("./__fixtures__/index.json", import.meta.url), "utf8"));
 const matcher = new Matcher(index);
 
 describe("matcher", () => {
