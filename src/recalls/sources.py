@@ -71,6 +71,7 @@ _NOT_MODELS = re.compile(
     r"^(?:19|20)[0-9]{2}$"  # years
     r"|^[0-9]{1,3}(?:-[0-9]{1,3})?$|^[0-9]+(?:st|nd|rd|th|s)$"  # small numbers, "1990s"
     # product descriptions that look like model numbers: 3-in-1, 3-speed, 6-quart, 12-pack, 30-inch
+    r"|^[0-9]+-[a-z]+$"  # number + word: 3-wick, 2-tier, 6-quart; a model has letters AND digits mixed
     r"|^[0-9]+-(?:in|in-[0-9]+|speed|quart|qt|piece|pc|pack|ct|count|inch|in|ft|foot|feet|oz|ounce|lb|pound|gallon"
     r"|gal|cup|volt|v|watt|w|amp|mm|cm|layer|tier|drawer|door|burner|person|seat|wheel|way|step|level|day|month|year)s?$",
     re.I,
