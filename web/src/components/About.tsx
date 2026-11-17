@@ -5,8 +5,9 @@ export default function About({ index }: { index: Index }) {
     <section className="about">
       <h2>Why I made this</h2>
       <p>
-        2025 had more consumer product recalls than any year since 2008, and more than half of them mention Amazon.
-        The CPSC posts every one, but nobody reads recall notices for an air fryer they bought two years ago.
+        There were 420 consumer product recalls in 2025 and there have been 521 so far in 2026. In 2016 about one in
+        four recall notices mentioned Amazon; now it's six in ten. The CPSC posts every one, but nobody reads recall
+        notices for an air fryer they bought two years ago.
         Retailers do email some buyers, but not reliably, and not if you bought it somewhere else.
       </p>
       <p>
