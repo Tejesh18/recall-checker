@@ -148,11 +148,13 @@ class Matcher:
         tw = {stem(w) for w in tokens}
         mt = model_tokens(title)
         head = " " + " ".join(tokens[:BRAND_WINDOW]) + " "
+        window = tokens[:BRAND_WINDOW]
         found: dict[int, str] = {}
-        for b, ids in self.by_brand.items():
-            if f" {b} " in head:
-                for i in ids:
-                    found.setdefault(i, b)
+        # longest brand first, then earliest, so "little tikes" beats "little"
+        for n in range(len(window), 0, -1):
+            for s in range(len(window) - n + 1):
+                for i in self.by_brand.get(" ".join(window[s:s + n]), ()):
+                    found.setdefault(i, " ".join(window[s:s + n]))
         accessory = accessory_words(title)
         out = []
         for i, brand in found.items():
@@ -166,6 +168,7 @@ class Matcher:
                 reasons.append(f"model {models[0].upper()}")
             best, best_shared = 0.0, []
             for pw in it.products:
+                pw = sorted(pw)
                 total = sum(self.weight(w) for w in pw)
                 shared = [w for w in pw if w in tw]
                 cov = sum(self.weight(w) for w in shared) / total if total else 0.0
@@ -188,8 +191,8 @@ class Matcher:
                 "title_words": float(len(tokens)),
                 "products_in_recall": float(len(it.products)),
             }
-            out.append(Match(it.recall, round(score, 2), reasons, features))
-        return sorted(out, key=lambda m: -m.score)
+            out.append(Match(it.recall, score, reasons, features))
+        return sorted(out, key=lambda m: (-m.score, str(m.recall["id"])))
 
     def match(self, title: str) -> Match | None:
         cands = self.candidates(title)
