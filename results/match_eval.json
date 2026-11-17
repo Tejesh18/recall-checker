@@ -1,0 +1,77 @@
+{
+  "chosen": 4.0,
+  "by_threshold": {
+    "1.0": {
+      "labeled_listings": 349,
+      "recalled": 61,
+      "caught": 52,
+      "missed": 9,
+      "matched_wrong_recall": 2,
+      "false_alarms": 42,
+      "precision": 0.553,
+      "recall": 0.852,
+      "ordinary_checked": 2000,
+      "ordinary_false_alarms": 2
+    },
+    "1.5": {
+      "labeled_listings": 349,
+      "recalled": 61,
+      "caught": 52,
+      "missed": 9,
+      "matched_wrong_recall": 2,
+      "false_alarms": 39,
+      "precision": 0.571,
+      "recall": 0.852,
+      "ordinary_checked": 2000,
+      "ordinary_false_alarms": 2
+    },
+    "2.0": {
+      "labeled_listings": 349,
+      "recalled": 61,
+      "caught": 50,
+      "missed": 11,
+      "matched_wrong_recall": 2,
+      "false_alarms": 14,
+      "precision": 0.781,
+      "recall": 0.82,
+      "ordinary_checked": 2000,
+      "ordinary_false_alarms": 2
+    },
+    "2.5": {
+      "labeled_listings": 349,
+      "recalled": 61,
+      "caught": 46,
+      "missed": 15,
+      "matched_wrong_recall": 2,
+      "false_alarms": 7,
+      "precision": 0.868,
+      "recall": 0.754,
+      "ordinary_checked": 2000,
+      "ordinary_false_alarms": 0
+    },
+    "3.0": {
+      "labeled_listings": 349,
+      "recalled": 61,
+      "caught": 46,
+      "missed": 15,
+      "matched_wrong_recall": 2,
+      "false_alarms": 7,
+      "precision": 0.868,
+      "recall": 0.754,
+      "ordinary_checked": 2000,
+      "ordinary_false_alarms": 0
+    },
+    "4.0": {
+      "labeled_listings": 349,
+      "recalled": 61,
+      "caught": 39,
+      "missed": 22,
+      "matched_wrong_recall": 0,
+      "false_alarms": 0,
+      "precision": 1.0,
+      "recall": 0.639,
+      "ordinary_checked": 2000,
+      "ordinary_false_alarms": 0
+    }
+  }
+}
