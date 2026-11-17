@@ -42,6 +42,8 @@ class Recall:
     sold_at: list[str]
     units: str = ""
     image: str = ""
+    description: str = ""
+    models: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -59,6 +61,23 @@ def _get(url: str, params: dict, cache: Path) -> object:
 
 def _clean(s: str | None) -> str:
     return re.sub(r"\s+", " ", (s or "").replace("\xa0", " ")).strip()
+
+
+# Model numbers are 4+ characters mixing letters and digits ("A2131", "CK-10",
+# "2061234X"). CPSC's structured Model field is almost always empty; they're
+# written into the description instead ("model numbers 2061234 and ...").
+_MODEL = re.compile(r"(?<![A-Za-z0-9-])(?=[A-Za-z0-9-]*[0-9])[A-Za-z0-9][A-Za-z0-9-]{3,}(?![A-Za-z0-9-])")
+_NOT_MODELS = re.compile(r"^(?:19|20)[0-9]{2}$|^[0-9]{1,3}(?:-[0-9]{1,3})?$|^[0-9]+(?:st|nd|rd|th|s)$", re.I)
+
+
+def model_numbers(text: str) -> list[str]:
+    found = []
+    for m in _MODEL.findall(text):
+        if _NOT_MODELS.match(m) or m.isdigit() and len(m) < 5:
+            continue  # years, small numbers, "1990s"
+        if m.upper() not in found:
+            found.append(m.upper())
+    return found
 
 
 def cpsc(year: int) -> list[Recall]:
@@ -88,6 +107,8 @@ def cpsc(year: int) -> list[Recall]:
             sold_at=[_clean(x["Name"]) for x in r.get("Retailers") or [] if x.get("Name")],
             units=_clean((r.get("Products") or [{}])[0].get("NumberOfUnits")),
             image=((r.get("Images") or [{}])[0] or {}).get("URL", ""),
+            description=_clean(r.get("Description")),
+            models=model_numbers(" ".join([_clean(r.get("Description"))] + [p.model for p in products])),
         ))
     return out
 
